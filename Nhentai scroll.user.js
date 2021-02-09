@@ -18,8 +18,7 @@
     let height = img.attr("height");
     let imgs = [];
     for (let i = 1;i <= num; i++){
-        imgs.push(base + i.toString() + '.jpg')
-        //ic.append('<img src="' + base + i.toString() + '.jpg" width="' + width + '" height="' + height + '">')
+        imgs.push(base + i.toString() + '.jpg');
     }
 
     function loadImage(imgs, width, height, target) {
@@ -30,24 +29,10 @@
         let url = imgs.shift();
         $('<img src="'+ url +'">').on("load", function() {
             $(this).width(width).height(height).appendTo(target);
-            loadImage(imgs, width, height, target)
+            loadImage(imgs, width, height, target);
         });
     }
 
     loadImage(imgs, width, height, '#image-container');
-/*
-    function loadImagesInSequence(images) {
-        if (!images.length) {
-            return;
-        }
-
-        let img = new Image();
-        let url = images.shift();
-
-        img.onload = function(){ loadImagesInSequence(images) };
-        img.src = url;
-    }
-
-    loadImagesInSequence(imgs);
-*/
+    
 })();
