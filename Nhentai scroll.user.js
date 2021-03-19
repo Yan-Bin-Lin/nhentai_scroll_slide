@@ -14,11 +14,13 @@
     let img = ic.find("img");
     let src = img.attr("src");
     let base = src.slice(0, src.lastIndexOf("/") + 1);
+    let extend = src.slice(src.lastIndexOf("."));
     let width = img.attr("width");
     let height = img.attr("height");
     let imgs = [];
-    for (let i = 1;i <= num; i++){
-        imgs.push(base + i.toString() + '.jpg');
+
+    for (let i = parseInt(window.location.pathname.slice(0, -1).split('/').pop()) + 1;i <= num; i++){
+        imgs.push(base + i.toString() + extend);
     }
 
     function loadImage(imgs, width, height, target) {
@@ -28,11 +30,11 @@
 
         let url = imgs.shift();
         $('<img src="'+ url +'">').on("load", function() {
-            $(this).width(width).height(height).appendTo(target);
+            $(this).appendTo(target);
             loadImage(imgs, width, height, target);
         });
     }
 
     loadImage(imgs, width, height, '#image-container');
-    
+
 })();
