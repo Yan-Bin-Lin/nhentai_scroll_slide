@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Nhentai scroll
 // @namespace    https://github.com/Yan-Bin-Lin/nhentai_scroll_slide
-// @version      0.1(
+// @version      0.5
 // @description  scroll to read picture in nhentai
 // @author       Lin Yan Bin
 // @match        https://nhentai.net/g/*/*/
