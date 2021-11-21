@@ -9,32 +9,45 @@
 // @grant        none
 // ==/UserScript==
 (function() {
+	let target = '#image-container';
     let ic = $("#image-container");
     let num = parseInt($("span.num-pages").first().text());
     let img = ic.find("img");
     let src = img.attr("src");
     let base = src.slice(0, src.lastIndexOf("/") + 1);
-    let extend = src.slice(src.lastIndexOf("."));
     let width = img.attr("width");
     let height = img.attr("height");
-    let imgs = [];
+	let start = parseInt(window.location.pathname.slice(0, -1).split('/').pop()) + 1
 
-    for (let i = parseInt(window.location.pathname.slice(0, -1).split('/').pop()) + 1;i <= num; i++){
-        imgs.push(base + i.toString() + extend);
-    }
+	function insertImage(event) {
+		let base = event.data.base
+		let i = event.data.i
+			let url = base + (i - 1).toString()
+			if ($(target).find('img[src$="' + url + '.jpg"]').length > 0) {
+				$('img[src$="' + url + '.jpg"]').after($(this));
+			} else if ($(target).find('img[src$="' + url + '.png"]').length > 0) {
+				$('img[src$="' + url + '.png"]').after($(this));
+			} else {
+				$(this).appendTo(target);
+			}
+		}
 
-    function loadImage(imgs, width, height, target) {
-        if (!imgs.length) {
-            return;
-        }
 
-        let url = imgs.shift();
-        $('<img src="'+ url +'">').on("load", function() {
-            $(this).appendTo(target);
-            loadImage(imgs, width, height, target);
+    function loadImage(base, i, width, height) {
+		let url = base + i.toString();
+        $('<img src="'+ url + '.jpg' +'">')
+		.one("load", {base: base, i: i}, insertImage)
+		.one("error", function() {
+           $('<img src="'+ url + '.png' +'">')
+			.one("load", {base: base, i: i}, insertImage)
         });
     }
 
-    loadImage(imgs, width, height, '#image-container');
+    for (let i = start;i <= num; i++){
+		  window.setTimeout(function() {
+			  loadImage(base, i, width, height);
+  }, 750 * (i - start));
+
+    }
 
 })();
