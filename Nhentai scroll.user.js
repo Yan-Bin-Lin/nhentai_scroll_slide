@@ -7,6 +7,7 @@
 // @match        https://nhentai.net/g/*/*/
 // @require      https://code.jquery.com/jquery-3.5.1.min.js
 // @grant        none
+// @license      MIT
 // ==/UserScript==
 (function() {
 	let target = '#image-container';
